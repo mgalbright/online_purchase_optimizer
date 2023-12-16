@@ -30,10 +30,8 @@ As it turns out, it's also helpful to introduce an indicator variable $z_r$ to i
 
 ## Problem formulation:
 
-We want top minimize total cost = lure cost + shipping cost, across all retailers and lures:
-$$
-    min_{q,y} \sum_{r}(\sum_{l} p_{l,r}\cdot q_{l,r}) + S_r \cdot y_r
-$$
+We want top minimize total cost = lure cost + shipping cost, across all retailers and lures:   
+$$min_{q,y} \sum_{r} (\sum_{l} p_{l,r} \cdot q_{l,r}) + S_r \cdot y_r$$
 
 This is the objective function to minimize, but there are constraints that we
 also must include in the problem.  Note that the objective is linear in the
@@ -43,19 +41,13 @@ Linear Integer Program.
 ### Constraints:
 
 Order quanitity non-negative. (We don't need to specify this via constraint. Instead, we set 0 as a lower bound on varaibles $q_{l,r}$ when we create them.)
-$$
- 0 \le q_{l,r}
-$$
+$$0 \le q_{l,r}$$
 
 Order quanitity can't exceed inventory. (We need to specify constraints to enforce this.)
-$$
- q_{l,r} \le I_{l,r}
-$$
+$$q_{l,r} \le I_{l,r}$$
 
 Order **at least** the desired number of lures across purchases from all retailers.  (Can order more than desired if it lowers the overall bill):
-$$
-\sum_r q_{l,r} \ge n_l
-$$
+$$\sum_r q_{l,r} \ge n_l$$
 
 #### Shipping:
 Pay for shipping indicator $y_r$ is binary:
@@ -79,9 +71,9 @@ We can handle this by introducing a second set of indicator variables, $z_r$.
 $z_r = 1$ means we ordered $0$ items from a retailer r (empty order).
 
 Full constraints are thus:
-$$ (\sum_l q_{l,r}) \le N_r \cdot (1-z_r) $$
+$$(\sum_l q_{l,r}) \le N_r \cdot (1-z_r)$$
 
-$$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r + M_r \cdot y_r \ge - N_r \cdot z_r  $$
+$$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r + M_r \cdot y_r \ge - N_r \cdot z_r$$
 
 Explanation:
 1. If you ordered some items, LHS of top equation > 0. That forces $z_r$ = 0.  Then the second equation is enforced.
@@ -103,45 +95,45 @@ Details about If-Then constraints come from Chapter 9 of Winston's Operations Re
 1. If constraint $f > 0$ is not obyed, then DO NOT enforce the second constraint.
 
 You can impelement this with a new indicator variable z, and two constraints, written like:
-$$ f \le N ( 1- z)$$
-$$ g \ge - N z $$
+$$f \le N ( 1- z)$$
+$$g \ge - N z$$
 
-So $z=0$ means: enforce the second constraint $ g \ge 0$, because the first constraint $f < 0$ is obeyed.
+So $z=0$ means: enforce the second constraint $g \ge 0$, because the first constraint $f < 0$ is obeyed.
 
 Note: if $z=1$, the second constraint is always obeyed, hence it is deactivated.
 
-Note: you must pick N to be very large, so $N >> g$ always.  Thus, if $z=1$, $g \le - Nz$ always, so the g constraint is deactivated.  If $z=0$, you recover the original constraint $ g \le 0$.
+Note: you must pick N to be very large, so $N >> g$ always.  Thus, if $z=1$, $g \le - Nz$ always, so the g constraint is deactivated.  If $z=0$, you recover the original constraint $g \le 0$.
 
 
 ## More math details about choosing constants $M_r$ and $N_r$
 Recall the original shipping constraint:
-$$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r + M_r \cdot y_r \ge 0  $$
+$$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r + M_r \cdot y_r \ge 0$$
 
 For this method to work, we need to define $M_r$ such that
-$$ (\sum_l p_{l,r} \cdot q_{l,r}) - T_r  < M_r$$
+$$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r  < M_r$$
 for all values of $q_{l,r}$.  Usually this is done ad-hoc with a large value of $M_r$, but we can specify a more principled method.
 
 The first key insight is that, since $T_r > 0$,
-$$ \sum_l p_{l,r} \cdot q_{l,r} - T_r < \sum_l p_{l,r} \cdot q_{l,r}$$
+$$\sum_l p_{l,r} \cdot q_{l,r} - T_r < \sum_l p_{l,r} \cdot q_{l,r}$$
 
 The second insight is that the above RHS can be viewed as an inner product between vectors (over the space of L):  
 
-$$ \sum_l p_{l,r} \cdot q_{l,r} = \bf{p}_r \cdot \bf{q}_r $$
+$$\sum_l p_{l,r} \cdot q_{l,r} = \bf{p}_r \cdot \bf{q}_r$$
 
 
 Since $p_{l,r} \ge 0$ and $q_{l,r} \ge 0$ are never negative, we can write this as the abs. value: $|\bf{p}_r \cdot \bf{q}_r|$.  
 
 We then apply the **Cauchy Swartz Inequality**:
 
-$$ \sum_l p_{l,r} \cdot q_{l,r} = |\bf{p}_r \cdot \bf{q}_r| \le |\bf{p}_r| |\bf{q}_r| \le |\bf{p}_r| |\bf{I}_r|$$
+$$\sum_l p_{l,r} \cdot q_{l,r} = |\bf{p}_r \cdot \bf{q}_r| \le |\bf{p}_r| |\bf{q}_r| \le |\bf{p}_r| |\bf{I}_r|$$
 
 The last substitution on the RHS above, from $q \rightarrow I$, comes because Lure quantities cannot exceed inventories:
-$$ |q_{l,r}|^2 \le |I_{l,r}|^2 $$
+$$|q_{l,r}|^2 \le |I_{l,r}|^2$$
 
 Hence, if we choose:
-$$ M_r = \sqrt{\sum_l (p_{l,r})^2} \cdot \sqrt{\sum_l (I_{l,r})^2} $$
+$$M_r = \sqrt{\sum_l (p_{l,r})^2} \cdot \sqrt{\sum_l (I_{l,r})^2}$$
 We are ensured 
-$$ (\sum_l p_{l,r} \cdot q_{l,r}) - T_r  < M_r$$
+$$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r  < M_r$$
 
 (Note: Above, I chose the L2 norm, but you could use any norm.)
 

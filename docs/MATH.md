@@ -36,7 +36,9 @@ $$
 $$
 
 This is the objective function to minimize, but there are constraints that we
-also must include in the problem.
+also must include in the problem.  Note that the objective is linear in the
+decision variables ($q_{l,r}$ and $y_r$), which are integers, so this is a 
+Linear Integer Program.
 
 ### Constraints:
 
@@ -60,7 +62,7 @@ Pay for shipping indicator $y_r$ is binary:
 $$y_r \in \{0,1\}$$
 
 Assuming you purchase **something** from a retailer, you'd have this constraint:  
-If purchase total for a retailer is less than free shipping threshold $T_r$, force the user to pay for shipping: $y_r = 1$.  
+If the purchase total for a retailer is less than free shipping threshold $T_r$, force the user to pay for shipping: $y_r = 1$.  
 (Else: the constraint deactivates, so $y_r$ can be 0 or 1. However,the optimizer will select free shipping $y_r = 0$ since that reduces overall price.)  
 That logic is encoded in this constraint:
 $$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r + M_r \cdot y_r \ge 0  $$
@@ -82,7 +84,7 @@ $$ (\sum_l q_{l,r}) \le N_r \cdot (1-z_r) $$
 $$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r + M_r \cdot y_r \ge - N_r \cdot z_r  $$
 
 Explanation:
-1. If you ordered some items, LHS of top equation > 0. That forces $z_r$ = 0.  Then the second equation becomes the second constraint.
+1. If you ordered some items, LHS of top equation > 0. That forces $z_r$ = 0.  Then the second equation is enforced.
 1. If you did not order any items, then $z_r$ can be 0 or 1.  That deactivates the second constraint, since the second constraint is trivially true for any $y_r$, if $z_r = 1$. So the optimizer will minimize costs by selecting $y_r = 0$.
 
 Note:  We need to chose $N_r >> M_r$. A safe choice could be be $N_r = 3M_r$.

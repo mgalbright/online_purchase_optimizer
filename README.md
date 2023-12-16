@@ -4,7 +4,7 @@
 ## Intro
 Have you ever online shopped and tried to decide: is it better to buy my items from retailer 1, retailer 2, retailer 3, ... or split my order between them?  Dividing an order amongst retailers can allow you to capitalize on cheaper prices for certain goods at some retailers, but it can increase your shipping costs. What's the optimal way to split a purchase across retailers to minimize the total bill? This program solves that problem (using linear integer programming).
 
-This program was created to demonstrate the power and flexibility of linear programming to solve practical and important problems. 
+This program was created as a fun way demonstrate the power and flexibility of linear programming to solve useful problems. 
 
 ### Problem Description
 
@@ -25,13 +25,13 @@ Pulp](https://coin-or.github.io/pulp/) libary to solve a linear integer program 
 The notebook [Notebook.ipynb](Notebook.ipynb) provides examples of using the code.
 
 There are two interfaces available to input data to specify an order to optimize:
-1. An Excel spreadsheet. Use this if you want to quickly specify and solve your own retail optimization problems. Example Excel files are included in the [examples](examples) folder, and a detailed explanation is given in [docs/Excel.md](docs/Excel.md).
+1. An Excel spreadsheet. Use this if you want to quickly specify and solve your own retail optimization problems. Example Excel files are included in the [examples](examples) folder, and a detailed explanation is given in [docs/EXCEL.md](docs/EXCEL.md).
 1. Python code. Use this to develop your own custom programs.
 
 ## Installation:
 
 1. Clone this repo and cd inside
-1. Create a Conda environment with dependencies:
+1. Create a Conda environment with dependencies, named pulp:
    ```shell
    conda env create -f environment.yml
    ```
@@ -54,10 +54,10 @@ There are two interfaces available to input data to specify an order to optimize
 In the generated output file [examples/sample-order-small_results.xlsx](examples/sample-order-small_results.xlsx), you will find the solution. In this case, the optimal solution is to order all items from Retailer2, and order nothing from Retailer1.  
 ![Number of lures to order in small example problem](docs/imgs/small_number_of_lures_to_order.png)
 
-For more details, and a more complex example where the order is divided between retailers, read the supplemental documentation [docs/EXCEL.md](docs/EXCEL.md)
+For more details, and a more complex example where the order is divided between retailers, read the supplemental documentation [docs/EXCEL.md](docs/EXCEL.md).
 
 ## Solve via Jupyter Notebook
-Check out the notebook [Notebook.ipynb](Notebook.ipynb) for further examples of using the code to solve optimization problems.
+See the notebook [Notebook.ipynb](Notebook.ipynb) for further examples of using the code to optimize retail orders.
 1. Start jupyter lab:
    ```shell
    jupyter lab

@@ -154,3 +154,33 @@ class TestExtraExamples:
 
     #check total bill
     assert math.isclose(p1.model.objective.value(), total_bill, abs_tol=0.01)
+
+
+
+def test_infeasible_problem():
+  """This problem has no solution, as the # of lures exceeds inventory"""
+  CAN_BUY_EXTRA_LURES_IF_CHEAPER = True
+  shipping = [7.0, 4.0] #shipping price in dollars at [retailer1, retailer2]
+  free_shipping_threshold = [50.0, 60.0] #Order threshold in dollars to qualify for free shipping @ [r1,r2]
+  
+  lures = ["l1", "l2"]  
+  num_lures_to_buy = [111, 20] # number of l1 lures exceeds total inventory
+    
+  retailers = ["r1", "r2"]  
+  prices = [[4.99, 5.49],   #price of l1 at [r1, r2]
+            [3.99, 3.49]]   #price of l2 at [r1, r2]
+  inventory = [[100, 10],   #max number of l1 available at [r1, r2]
+                [15, 30]]    #max number of l2 available at [r1, r2]
+
+  expected_quantities = {'l1': {'r1': 0, 'r2':3},  #buy everyting at r2 retailer so get free shipping
+                          'l2': {'r1': 0, 'r2':20}}
+
+  p1 = RetailProblem(lures, num_lures_to_buy, retailers, prices,
+                    inventory, shipping, free_shipping_threshold,
+                    solver_name=SOLVER_NAME, 
+                    can_buy_extra_lures_if_cheaper = CAN_BUY_EXTRA_LURES_IF_CHEAPER)
+  
+  p1.solve()
+  
+  assert p1.model.status == -1  #Infeasible, aka no solution exists
+  

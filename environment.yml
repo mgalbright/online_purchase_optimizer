@@ -1,0 +1,15 @@
+name: pulp
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - pip
+  - openpyxl
+  - python=3.11
+  - pandas
+  - conda-forge::glpk
+  - numpy
+  - conda-forge::jupyterlab
+  - pip:
+      - pulp==2.7.0
+prefix: /Users/michael/InstalledSoftware/anaconda3/envs/pulp

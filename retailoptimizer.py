@@ -304,6 +304,25 @@ class RetailProblem:
     # The optimised objective function value is printed to the screen
     print("Total purchase cost = ", self.model.objective.value())
 
+  def convert_model_variable_quantities_to_dict(self):
+    """Converts key output (quantities of items to order) to dict of integers"""
+
+    if self.model.status == 1:
+      lures1 = list(self.quantity_to_order.keys())
+      retailers1 = list(self.quantity_to_order[lures1[0]].keys())
+
+      result_dict = {}
+      for l in lures1:
+        result_dict[l] = {}
+        for r in retailers1:
+          result_dict[l][r] = int(self.quantity_to_order[l][r].varValue)
+      return result_dict
+    else:
+      #model has not been solved yet, no results
+      print("Warning: Model has not found optimal solution, cannot return outputs")
+      return None
+
+
   def list_additonal_items_ordered(self):
     """List additional items were ordered beyond those desired.
     

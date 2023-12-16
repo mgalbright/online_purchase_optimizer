@@ -1,4 +1,4 @@
-# Online retail optimizer
+# Online purchase optimizer
 
 
 ## Intro

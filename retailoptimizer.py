@@ -45,6 +45,9 @@ class RetailProblem:
 
     p1.print_optimization_results()
 
+    #see details about optimal purchase in jupyter notebook:
+    p1.df_quantities
+    p1.df_bills
   """
 
   def __init__(self, 
@@ -292,6 +295,11 @@ class RetailProblem:
       self.solver = get_solver(self.solver_name) #e.g. CBC solver (passing 'PULP_CBC_CMD') enables computation of shadow prices
       self.status = self.model.solve(self.solver)
 
+    #create pandas dataframes storing optimal order solution: 
+    # self.df_quantities, storing optimal quantities to order from each retailer
+    # self.df_bills, storing details about the bill to each retailer
+    self._generate_dataframes_storing_results()
+
   def print_optimization_results(self):
     """Print problem results after you call solve()"""
     # The status of the solution is printed to the screen
@@ -355,7 +363,68 @@ class RetailProblem:
     for l, extra_bought in extra_lures.items():
       print(f"For lure {l}, ordered {extra_bought} additional units" +
                 " (more than desired)")
+
+  def _generate_dataframes_storing_results(self):
+    """generate pandas dataframes storing optimal order details
     
+    Creates class variables:
+      self.df_quantities: stores dataframe with optimal quantities of lures
+        to order from each retailer
+      self.df_bills: stores details about the bills per retailer for the
+        optimal order
+    """
+    
+    if self.model.status == 1:
+      #build dataframe storing quantity of lures to order
+
+      quant = {}  #quantity of lures to order from each retailer
+      for l in self.lures:
+        quant[l] = {}
+        for r in self.retailers:
+          quant[l][r] = int(self.quantity_to_order[l][r].varValue)
+      df_quant = pd.DataFrame(quant).T
+
+      num_lures_total = []  #total number of lures ordered across all retailers
+      for l in self.lures:
+        num_lures_ordered = 0
+        for r in self.retailers:
+          num_lures_ordered += quant[l][r]
+        num_lures_total.append(num_lures_ordered)
+      df_quant['total_number'] = num_lures_total
+
+      self.df_quantities = df_quant
+          
+      #-------------------------------
+      #create dataframw tih info on the bill (total spending) 
+      total_bills = []
+      shipping_bills = []
+      item_bills = []
+      for r in self.retailers:
+        shipping_bill = (self.pay_shipping[r].varValue) * self.shipping[r]
+        
+        item_bill = 0
+        for l in self.lures:
+          item_bill += quant[l][r] * self.prices[l][r]
+        
+        total_bill = shipping_bill + item_bill
+        
+        item_bills.append(item_bill)
+        shipping_bills.append(shipping_bill)
+        total_bills.append(total_bill)
+
+      df_bills = {'total_bill': total_bills, 'shipping_bill': shipping_bills, 
+                  'item_bill': item_bills}
+      df_bills = pd.DataFrame(df_bills).T
+      df_bills.columns = self.retailers
+      df_bills['total'] = df_bills.sum(axis=1) #compute totals across all retailers
+
+      self.df_bills = df_bills
+    
+    else:
+      print("Warning: model did not find optimal solution")
+      self.df_quantities = None
+      self.df_bills = None
+
 
   def save_results_to_excel(self, excel_results_file:str,
                             sheet_name_for_quantities = "number_of_lures_to_order",
@@ -369,53 +438,9 @@ class RetailProblem:
       sheet_name_for_total_bills: name of excel sheet to create which stores
         details about the bill.
     """
-
-    #Pack key results into dataframes to write to Excel sheets
-
-    quant = {}  #quantity of lures to order from each retailer
-    for l in self.lures:
-      quant[l] = {}
-      for r in self.retailers:
-        quant[l][r] = int(self.quantity_to_order[l][r].varValue)
-    df_quant = pd.DataFrame(quant).T
-
-    num_lures_total = []  #total number of lures ordered across all retailers
-    for l in self.lures:
-      num_lures_ordered = 0
-      for r in self.retailers:
-        num_lures_ordered += quant[l][r]
-      num_lures_total.append(num_lures_ordered)
-    df_quant['total_number'] = num_lures_total
-        
-    #-------------------------------
-    #Pack info on the bill (total spending) 
-    total_bills = []
-    shipping_bills = []
-    item_bills = []
-    for r in self.retailers:
-      shipping_bill = (self.pay_shipping[r].varValue) * self.shipping[r]
-      
-      item_bill = 0
-      for l in self.lures:
-        item_bill += quant[l][r] * self.prices[l][r]
-      
-      total_bill = shipping_bill + item_bill
-      
-      item_bills.append(item_bill)
-      shipping_bills.append(shipping_bill)
-      total_bills.append(total_bill)
-
-    df_bills = {'total_bill': total_bills, 'shipping_bill': shipping_bills, 
-                'item_bill': item_bills}
-    df_bills = pd.DataFrame(df_bills).T
-    df_bills.columns = self.retailers
-    df_bills['total'] = df_bills.sum(axis=1) #compute totals across all retailers
-
-    #-------------------------------
-
     with pd.ExcelWriter(excel_results_file, mode='w') as writer:  
-      df_quant.to_excel(writer, sheet_name=sheet_name_for_quantities, index=True)
-      df_bills.to_excel(writer, sheet_name=sheet_name_for_total_bills, index=True)
+      self.df_quantities.to_excel(writer, sheet_name=sheet_name_for_quantities, index=True)
+      self.df_bills.to_excel(writer, sheet_name=sheet_name_for_total_bills, index=True)
 
 #-------------------------------------------------------------------------------
 #CLI

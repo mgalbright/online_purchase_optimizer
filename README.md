@@ -13,7 +13,7 @@ This program applies to the following very common online retail situation:
 1. There are multiple online retailers selling the products.
 1. Prices of items are (generally) different at different retailers.
 1. Shipping prices are (generally) different at different retailers.
-1. If your subtotal at a retailer exceeds a threshold, you qualify for free shipping. Thresholds (generally) differ between retailers.
+1. If your subtotal at a retailer reaches a threshold, you qualify for free shipping. Thresholds (generally) differ between retailers.
 
 You must decide how many (integer) units of each item to order from each retailer, so that your total bill is minimized. (In other words, you decide how to divide your order amongst retailers, to minimize the total price.)  Your bill can be reduced by taking full advantage of cheaper shipping and cheaper unit prices.  
 
@@ -25,8 +25,8 @@ Pulp](https://coin-or.github.io/pulp/) libary to solve a linear integer program 
 The notebook [Notebook.ipynb](Notebook.ipynb) provides examples of using the code.
 
 There are two interfaces available to input data to specify an order to optimize:
-1. Python code
-1. An Excel spreadsheet.  Example Excel files are included in the [examples](examples) folder, and a detailed explanation is given in [docs/Excel.md](docs/Excel.md).
+1. An Excel spreadsheet. Use this if you want to quickly specify and solve your own retail optimization problems. Example Excel files are included in the [examples](examples) folder, and a detailed explanation is given in [docs/Excel.md](docs/Excel.md).
+1. Python code. Use this to develop your own custom programs.
 
 ## Installation:
 
@@ -39,8 +39,12 @@ There are two interfaces available to input data to specify an order to optimize
    ```shell
    conda activate pulp
    ```
+1. Run unit tests to verify that the program is working correctly
+   ```shell
+   pytest tests/test_optimize.py
+   ```
 
-## Solve via command line interface
+## Solve optimization problems via command line interface
 1. Optionally, edit the file [examples/sample-order-small.xlsx](examples/sample-order-small.xlsx). (You can also make a copy and fill in your own problem parameters.)
 1. Solve the problem:
    ```shell

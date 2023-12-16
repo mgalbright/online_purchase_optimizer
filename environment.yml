@@ -9,6 +9,7 @@ dependencies:
   - pandas
   - conda-forge::glpk
   - numpy
+  - pytest
   - conda-forge::jupyterlab
   - pip:
       - pulp==2.7.0

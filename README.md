@@ -2,7 +2,9 @@
 
 
 ## Intro
-Have you ever online shopped and tried to decide: is it better to buy my items from retailer 1, retailer 2, retailer 3, ... or split my order between them?  Dividing an order amongst retailers can allow you to capitalize on cheaper prices for certain goods at some retailers, but it can increase your shipping costs. What's the optimal way to split a purchase across retailers to minimize the total bill? This program solves that problem.
+Have you ever online shopped and tried to decide: is it better to buy my items from retailer 1, retailer 2, retailer 3, ... or split my order between them?  Dividing an order amongst retailers can allow you to capitalize on cheaper prices for certain goods at some retailers, but it can increase your shipping costs. What's the optimal way to split a purchase across retailers to minimize the total bill? This program solves that problem (using linear integer programming).
+
+This program was created to demonstrate the power and flexibility of linear programming to solve practical and important problems. 
 
 ### Problem Description
 
@@ -17,7 +19,8 @@ You must decide how many (integer) units of each item to order from each retaile
 
 ### Solution
 
-The file [retailoptimizer.py](retailoptimizer.py) provides reusable code to solve this problem.  
+The file [retailoptimizer.py](retailoptimizer.py) provides reusable code to solve this problem. Inside, it is using the [
+Pulp](https://coin-or.github.io/pulp/) libary to solve a linear integer program to minimize the bill.
 
 The notebook [Notebook.ipynb](Notebook.ipynb) provides examples of using the code.
 
@@ -57,7 +60,10 @@ Check out the notebook [Notebook.ipynb](Notebook.ipynb) for further examples of 
    ```
 1. Open [Notebook.ipynb](Notebook.ipynb) and run all cells.
 
-## Supplemental documentation
+## Documentation
 1. A detailed walkthrough of the longer sample problem is given in [docs/EXCEL.md](docs/EXCEL.md).
 1. For further info about the math formulation of the problem (for math lovers only), see [docs/MATH.md](docs/MATH.md).
+
+## References
+To learn more about linear programming, check out the book "Operations Research: Applications and Algorithms" by Winston.
 

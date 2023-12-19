@@ -94,13 +94,11 @@ Details about If-Then constraints come from Chapter 9 of Winston's Operations Re
 1. If constraint $f > 0$ is obeyed, then enforce constraint $g >= 0$.
 1. If constraint $f > 0$ is not obyed, then DO NOT enforce the second constraint.
 
-You can impelement this with a new indicator variable z, and two constraints, written like:
+You can implement this with a new indicator variable z, and two constraints, written like:
 $$f \le N ( 1- z)$$
 $$g \ge - N z$$
 
-So $z=0$ means: enforce the second constraint $g \ge 0$, because the first constraint $f < 0$ is obeyed.
-
-Note: if $z=1$, the second constraint is always obeyed, hence it is deactivated.
+Interpretation: We see if $f>0$, the first constraint forces $z=0$. (Otherwise, $z=1$ would violate the first constraint.) But then $z=0$ activates the second constraint $g \ge 0\$.  On the other hand, if $f<0$, then $z$ could be $0$ or $1$; the optimizer will chose $z=1$ to minimize shipping prices, since $z=1$ deactivates the second constraint that enforces payment for shipping.
 
 Note: you must pick N to be very large, so $N >> g$ always.  Thus, if $z=1$, $g \le - Nz$ always, so the g constraint is deactivated.  If $z=0$, you recover the original constraint $g \le 0$.
 
@@ -116,7 +114,7 @@ for all values of $q_{l,r}$.  Usually this is done ad-hoc with a large value of 
 The first key insight is that, since $T_r > 0$,
 $$\sum_l p_{l,r} \cdot q_{l,r} - T_r < \sum_l p_{l,r} \cdot q_{l,r}$$
 
-The second insight is that the above RHS can be viewed as an inner product between vectors (over the space of L):  
+The second insight is that the above RHS can be viewed as an inner product between vectors:  
 
 $$\sum_l p_{l,r} \cdot q_{l,r} = \bf{p}_r \cdot \bf{q}_r$$
 

@@ -34,7 +34,7 @@ We want top minimize total cost = lure cost + shipping cost, across all retailer
 $$min_{q,y,z} \sum_{r} (\sum_{l} p_{l,r} \cdot q_{l,r}) + S_r \cdot y_r$$
 
 This is the objective function to minimize, but there are constraints that we
-also must include in the problem.  Note that the objective (and constratings) are linear in the
+also must include in the problem.  Note that the objective (and constraints) are linear in the
 decision variables ($q_{l,r}$ , $y_r$, $z_r$), which are integers, so this is a 
 Linear Integer Program.
 
@@ -108,37 +108,27 @@ $$(\sum_l p_{l,r} \cdot q_{l,r}) - T_r + M_r \cdot y_r \ge 0$$
 
 For this constraint to work correctly, we need to define the constant $M_r$ such that
 $$T_r  - (\sum_l p_{l,r} \cdot q_{l,r})  < M_r$$
-for all values of $q_{l,r}$.  
-
+for all values of $q_{l,r}$.
 Since a retail bill cannot be negative
 $$\sum_l p_{l,r} \cdot q_{l,r} \ge 0$$
 it follows that 
 $$T_r  - (\sum_l p_{l,r} \cdot q_{l,r}) \le T_r \lt T_r + 1$$ 
 
 Hence, a simple and safe choice would be
-$$
-M_r = T_r + 1
-$$
+$$M_r = T_r + 1$$
 
 ### Picking $N_r$
 We must also choose $N_r$ such that two inequalities always hold:
 $$\sum_l q_{l,r} \le N_r$$
-and
-$$
- T_r - (\sum_l p_{l,r} \cdot q_{l,r}) - M_r \cdot y_r \le N_r
-$$
+$$T_r - (\sum_l p_{l,r} \cdot q_{l,r}) - M_r \cdot y_r \le N_r$$
 for all values of the variables.
 
 Note that quantities ordered must be less than inventory, so
-$$
-\sum_l q_{l,r} \le \sum_l I_{l,r}
-$$
+$$\sum_l q_{l,r} \le \sum_l I_{l,r}$$
 
 Hence, if $N_r$ is at least as big as $\sum_l I_{l,r}$, the first inequality always holds.
 
 Following the logic used to compute $M_r$, if $N_r$ is at least as big as $T_r + 1$, the second inequality is also met (since $M_r y_r \ge 0$).  
 
 Hence, a simple choice guaranteed to satisfy both restrictions simultaneously is
-$$
-N_r = (T_r + 1) + \sum_l I_{l,r} 
-$$
+$$N_r = (T_r + 1) + \sum_l I_{l,r} $$

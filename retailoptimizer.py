@@ -128,13 +128,13 @@ class RetailProblem:
     self.solver_name = solver_name
     self.num_lures_to_buy_is_integer = num_lures_to_buy_is_integer
     #-------------------------
-    self.M, self.N = self._compute_big_M_constants(self.lures, self.prices, 
+    self.M, self.N = self._compute_big_M_constants(self.lures, 
                                                 self.retailers, self.inventory)
     
     self.initialize_optimization_problem()
 
   
-  def _compute_big_M_constants(self, lures, prices, retailers, inventory):
+  def _compute_big_M_constants(self, lures, retailers, inventory):
     """Computes large constants M, N to enforce shipping constraints.
     
     These are used in the 'big M' technique to enforce shipping constraints in 
@@ -145,10 +145,13 @@ class RetailProblem:
     M = {r:0 for r in retailers}
     N = M.copy()
     for r in retailers:
-        M[r] = 10 * np.linalg.norm([prices[l][r] for l in lures], 2) * \
-          np.linalg.norm([inventory[l][r] for l in lures], 2)
-        N[r] = 3*M[r]
+      M[r] = self.free_shipping_threshold[r] + 1.0
+
+      N[r] = self.free_shipping_threshold[r] + 1.0
+      for l in lures:
+        N[r] +=  inventory[l][r]
     return M, N
+
   
   #Factory to create a problem by loading params from an Excel file.
   #Necessary workaround because python doesn't let you overload constructors.
@@ -461,7 +464,7 @@ def optimize_problem_from_excel_file(infile, outfile):
       print(f"Optimal solution found. Saving results to {outfile}")
       p1.save_results_to_excel(outfile)
     else:
-      print(f"WARNING: optimal solution was not found. Model status was {p2.model.status}")
+      print(f"WARNING: optimal solution was not found. Model status was {p1.model.status}")
       print("Please try refining your problem so a solution exists")
 
   else:

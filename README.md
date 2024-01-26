@@ -29,7 +29,7 @@ There are two interfaces available to input data to specify an order to optimize
 1. Python code. Use this to develop your own custom programs.
 
 ## Change Log
-* Migrated the project to a python package that is pip-installable. Reduced conda usage.
+* Migrated the project to a python package that is pip-installable. Made Conda usage optional.
 
 ## Installation:
 

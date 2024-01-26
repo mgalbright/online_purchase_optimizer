@@ -8,7 +8,7 @@ import re
 import numpy as np
 import pandas as pd
 from pulp import LpMinimize, LpProblem, LpStatus, lpSum, LpVariable, LpInteger
-from pulp import LpBinary, LpContinuous, makeDict, get_solver, listSolvers
+from pulp import LpBinary, LpContinuous, makeDict, getSolver, listSolvers
 from openpyxl import load_workbook
 
 # Helper functions
@@ -295,7 +295,7 @@ class RetailProblem:
     if self.solver_name is None:
       self.status = self.model.solve()
     else:
-      self.solver = get_solver(self.solver_name) #e.g. CBC solver (passing 'PULP_CBC_CMD') enables computation of shadow prices
+      self.solver = getSolver(self.solver_name) #e.g. CBC solver (passing 'PULP_CBC_CMD') enables computation of shadow prices
       self.status = self.model.solve(self.solver)
 
     #create pandas dataframes storing optimal order solution: 

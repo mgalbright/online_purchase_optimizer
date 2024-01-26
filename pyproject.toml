@@ -10,12 +10,13 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = {file = "LICENSE"}
 dependencies = [
-    "pulp==2.7.0",
+    "pulp>=2.8.0",
     "openpyxl",
     "pandas",
     "numpy",
     "pytest",
-    "jupyterlab"
+    "jupyterlab",
+    "pyarrow"
 ]
 dynamic = ["version"]
 

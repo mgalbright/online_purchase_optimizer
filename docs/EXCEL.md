@@ -20,7 +20,7 @@ In the fourth and final sheet, the user enters shipping costs. Row 3 lists the r
 ## Solving
 You can then find the optimal solution to this problem with the code
 ```shell
-python retailoptimizer.py -i examples/sample-order-large.xlsx -o examples/sample-order-large_results.xlsx
+python ./src/online_purchase_optimizer/retailoptimizer.py -i examples/sample-order-large.xlsx -o examples/sample-order-large_results.xlsx
 ```
 
 ## Output solution

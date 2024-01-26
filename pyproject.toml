@@ -7,7 +7,7 @@ name = "online_purchase_optimizer"
 authors = [{name = "Michael Albright"}]
 description = "Optimize online retail orders using linear integer programming"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 license = {file = "LICENSE"}
 dependencies = [
     "pulp==2.8.0",

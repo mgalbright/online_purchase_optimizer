@@ -29,6 +29,7 @@ There are two interfaces available to input data to specify an order to optimize
 1. Python code. Use this to develop your own custom programs.
 
 # Change Log
+* Created [google colab](https://colab.research.google.com/github/mgalbright/online_purchase_optimizer/blob/main/Notebook.ipynb) notebook.
 * Migrated the project to a python package that is pip-installable. Made Conda usage optional.
 
 # Testing without Installation:

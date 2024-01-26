@@ -62,6 +62,10 @@ For more details, and a more complex example where the order is divided between 
 
 ## Solve via Jupyter Notebook
 See the notebook [Notebook.ipynb](Notebook.ipynb) for further examples of using the code to optimize retail orders.
+1. Install jupyter lab if you don't have it
+   ```shell
+   pip install jupyterlab
+   ```
 1. Start jupyter lab:
    ```shell
    jupyter lab

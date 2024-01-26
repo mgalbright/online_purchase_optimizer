@@ -3,10 +3,11 @@ import pytest
 import math
 import numpy as np
 import pandas as pd
-from retailoptimizer import RetailProblem, print_avail_solvers
+from online_purchase_optimizer.retailoptimizer import RetailProblem, print_avail_solvers
 from pulp import LpMinimize, LpProblem, LpStatus, lpSum, LpVariable, LpInteger, LpBinary, makeDict
 
-SOLVER_NAME = 'GLPK_CMD'
+SOLVER_NAME = 'PULP_CBC_CMD'
+# SOLVER_NAME = 'GLPK_CMD'
 
 optimization_params_example_problems = [
   #small example: order all items from retailer 2

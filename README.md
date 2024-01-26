@@ -28,16 +28,20 @@ There are two interfaces available to input data to specify an order to optimize
 1. An Excel spreadsheet. Use this if you want to quickly specify and solve your own retail optimization problems. Example Excel files are included in the [examples](examples) folder, and a detailed explanation is given in [docs/EXCEL.md](docs/EXCEL.md).
 1. Python code. Use this to develop your own custom programs.
 
+## Change Log
+* Migrated the project to a python package that is pip-installable. Reduced conda usage.
+
 ## Installation:
 
 1. Clone this repo and cd inside
-1. Create a Conda environment with dependencies, named pulp:
+1. (Optional): Create a separate Conda environment named pulp to contain the installed libraries:
    ```shell
-   conda env create -f environment.yml
-   ```
-1. Activate the environment
-   ```shell
+   conda create -y -n pulp python=3.11
    conda activate pulp
+   ```
+1. Install this page
+   ```shell
+   pip install -e .
    ```
 1. Run unit tests to verify that the program is working correctly
    ```shell
@@ -48,7 +52,7 @@ There are two interfaces available to input data to specify an order to optimize
 1. Optionally, edit the file [examples/sample-order-small.xlsx](examples/sample-order-small.xlsx). (You can also make a copy and fill in your own problem parameters.)
 1. Solve the problem:
    ```shell
-   python retailoptimizer.py -i examples/sample-order-small.xlsx -o examples/sample-order-small_results.xlsx
+   python ./src/online_purchase_optimizer/retailoptimizer.py -i examples/sample-order-small.xlsx -o examples/sample-order-small_results.xlsx
    ```
 
 In the generated output file [examples/sample-order-small_results.xlsx](examples/sample-order-small_results.xlsx), you will find the solution. In this case, the optimal solution is to order all items from Retailer2, and order nothing from Retailer1.  

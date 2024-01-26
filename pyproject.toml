@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "online_purchase_optimizer"
+authors = [{name = "Michael Albright"}]
+description = "Optimize online retail orders using linear integer programming"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+dependencies = [
+    "pulp==2.7.0",
+    "openpyxl",
+    "pandas",
+    "numpy",
+    "pytest",
+    "jupyterlab"
+]
+dynamic = ["version"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

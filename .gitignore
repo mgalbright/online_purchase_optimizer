@@ -1,5 +1,7 @@
 __pycache__/
 .ipynb_checkpoints
+build/
+src/online_purchase_optimizer.egg-info/
 
 **/.DS_Store
 

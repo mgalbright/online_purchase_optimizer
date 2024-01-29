@@ -19,7 +19,7 @@ You must decide how many (integer) units of each item to order from each retaile
 
 ## Solution
 
-The file [retailoptimizer.py](retailoptimizer.py) provides reusable code to solve this problem. Inside, it is using the [
+The file [retailoptimizer.py](src/online_purchase_optimizer/retailoptimizer.py) provides reusable code to solve this problem. Inside, it is using the [
 Pulp](https://coin-or.github.io/pulp/) libary to solve a linear integer program to minimize the bill.
 
 The notebook [Notebook.ipynb](Notebook.ipynb) provides examples of using the code.

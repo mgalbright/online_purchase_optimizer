@@ -33,7 +33,7 @@ There are two interfaces available to input data to specify an order to optimize
 * Migrated the project to a python package that is pip-installable. Made Conda usage optional.
 
 # Testing without Installation:
-If you want to quickly test the library without installing anything on your computer, you can run the Notebook.py file in [google colab](https://colab.research.google.com/github/mgalbright/online_purchase_optimizer/blob/main/Notebook.ipynb).
+If you want to quickly test the library without installing anything on your computer, you can run the Notebook.ipynb file in [google colab](https://colab.research.google.com/github/mgalbright/online_purchase_optimizer/blob/main/Notebook.ipynb).
 
 # Installation:
 
